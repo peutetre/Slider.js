@@ -1,4 +1,4 @@
 Slider.js
 =========
 
-A Slider for Safari mobile and Android
+A slider for touch enable browsers

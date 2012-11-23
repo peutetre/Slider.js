@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Testing Slider.js</title>
+    </head>
+    <body>
+        <script src="../slider.js"></script>
+        <script src="../vendor/evidence.js"></script>
+        <script>
+
+            function $(e) { return document.getElementById(e); }
+
+            Evidence('SliderTest', {
+                setUp : function () {
+                    var container = document.createElement("div");
+                    container.id = "container-1";
+                    window.document.body.appendChild(container);
+                },
+                tearDown : function () {
+                    window.document.body.removeChild($("container-1"))
+                },
+                testTest : function (t) {
+                    var a = 1;
+                    t.assertEqual(1, a);
+                },
+                testIfContainerExists : function (t) {
+                    t.assertEqual(true, $("container-1") != null);
+                }
+            });
+        </script>
+    </body>
+</html>
