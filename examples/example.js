@@ -3,6 +3,10 @@ window.document.addEventListener("DOMContentLoaded", function (){
 
     function $(elt) { return window.document.getElementById(elt); }
 
+    window.document.body.addEventListener("touchstart", function (evt) {
+        evt.preventDefault();
+    }, false);
+
     window.a = new Slider({
         min : 0,
         max : 300,
@@ -31,11 +35,16 @@ window.document.addEventListener("DOMContentLoaded", function (){
         min : 0,
         max : 100,
         step : 1,
+        initPos : 50,
         width : 200,
         label : true,
+        labelf : function (val) {
+            return val + "%";
+        },
         container : $("container3"),
+        progress : true,
         f : function (val) {
-            console.log(val);
+            console.log("Slider value: " + val);
         }
     }).bind();
 
