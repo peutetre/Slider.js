@@ -130,7 +130,6 @@
             delta = touch.clientX - this.startX;
 
         if (touch.identifier == this.touchId) {
-            evt.preventDefault();
             var x = this.pos + delta;
 
             if (x <= 0) this.delta = 0;
