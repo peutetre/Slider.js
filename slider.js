@@ -91,6 +91,7 @@
         }
 
         this.button.classList.add(this.btnCls);
+        this.bar.classList.add(this.barCls);
         this.elt.classList.add(this.sliderCls);
 
         this.bar.appendChild(this.button);

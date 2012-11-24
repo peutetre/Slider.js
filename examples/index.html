@@ -3,40 +3,54 @@
     <head>
         <title>Slider.js example</title>
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-        <link rel="stylesheet" href='example.css' type="text/css">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, initial-scale=1.0, maximun-scale=1.0">
     </head>
     <body>
         <style type="text/css">
+            * {
+                box-sizing:border-box;
+            }
+            body {
+                font-family:"Chalkboard SE";
+                color:#A8A8A8;
+                background:#47484D;
+                margin-top:40px;
+            }
             .container {
                 width:300px;
-                min-height:100px;
+                min-height:50px;
                 margin:10px auto;
             }
-            .slider {
-                background:white;
-            }
+            /* defaults */
             .slider-bar {
-
+                background:#A8A8A8;
+                border-radius:50px;
             }
             .slider-button {
-                background:red;
+                border-radius: 50px;
+                border: 2px solid #A8A8A8;
+                background: #696A77;
             }
             .slider-progress {
-                background:green;
+                background: #A8A8A8;
+                border-radius: 20px;
+                box-shadow: 1px -1px 2px #3B3A49;
+                border: 2px solid #B4B4B4;
             }
-            .slider-label {
-                background:pink;
-            }
-            .slider-progress {
-                background:orange;
-                border-raduis:10px;
+            /* another style */
+            .another-slider-bar { }
+            .another-btn {
+                border-radius: 20px;
+                border: 2px solid #63626B;
+                background: #696A77;
             }
         </style>
 
         <div id="container1" class="container"></div>
         <div id="container2" class="container"></div>
         <div id="container3" class="container"></div>
+        <div id="container4" class="container"></div>
+        <div id="container5" class="container"></div>
 
         <script src="../slider.js"></script>
         <script src="example.js"></script>

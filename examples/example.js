@@ -12,6 +12,10 @@ window.document.addEventListener("DOMContentLoaded", function (){
         max : 300,
         step : 1,
         width : 200,
+        label : true,
+        labelf : function (val) {
+            return val + " g";
+        },
         container : $("container1"),
         f : function (val) {
             console.log(val);
@@ -24,7 +28,11 @@ window.document.addEventListener("DOMContentLoaded", function (){
         step : 1,
         width : 200,
         buttonWidth: 50,
-        labelHeight : 100,
+        labelHeight : 30,
+        label : true,
+        labelf : function (val) {
+            return val + " ml";
+        },
         container : $("container2"),
         f : function (val) {
             console.log(val);
@@ -37,6 +45,7 @@ window.document.addEventListener("DOMContentLoaded", function (){
         step : 1,
         initPos : 50,
         width : 200,
+        buttonWidth: 40,
         label : true,
         labelf : function (val) {
             return val + "%";
@@ -45,6 +54,44 @@ window.document.addEventListener("DOMContentLoaded", function (){
         progress : true,
         f : function (val) {
             console.log("Slider value: " + val);
+        },
+        barCls:"another-slider-bar",
+        btnCls:"another-btn"
+    }).bind();
+
+    window.d = new Slider({
+        min : 0,
+        max : 100,
+        step : 1,
+        initPos : 50,
+        width : 200,
+        buttonWidth: 40,
+        label : true,
+        labelf : function (val) {
+            return val + "%";
+        },
+        container : $("container4"),
+        progress : true,
+        f : function (val) {
+            console.log("Slider d value: " + val);
+        },
+        barCls:"another-slider-bar",
+        btnCls:"another-btn"
+    }).bind();
+
+    window.e = new Slider({
+        min : 0,
+        max : 300,
+        step : 1,
+        width : 200,
+        label : true,
+        labelf : function (val) {
+            return val + " g";
+        },
+        buttonWidth: 30,
+        container : $("container5"),
+        f : function (val) {
+            console.log(val);
         }
     }).bind();
 
