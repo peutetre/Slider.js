@@ -97,7 +97,7 @@
         this.elt.appendChild(this.bar);
         this.container.appendChild(this.elt);
 
-        this.set(this.initPos, true);
+        this.set(this.initPos, true, true);
         this.timestamp = getTimeStamp();
 
         this._onButtonTouchStart = this.onButtonTouchStart.bind(this);
@@ -154,12 +154,12 @@
         return parseInt((this.max - this.min) / (this.width-this.buttonWidth) * this.delta + this.min, 10);
     };
 
-    w.Slider.prototype.set = function (val, force) {
+    w.Slider.prototype.set = function (val, force, noCallback) {
         if (val >= this.min && val <= this.max) {
             this.pos = parseInt( (val - this.min) * (this.width-this.buttonWidth) / (this.max - this.min), 10);
             this.delta = this.pos;
             this._translate(this.pos);
-            this._update(force);
+            this._update(force, noCallback);
             this.lastVal = val;
         }
     };
@@ -168,10 +168,10 @@
         this.button.style.webkitTransform = "translate3d(" + val  + "px, 0,0)";
     };
 
-    w.Slider.prototype._update = function (force) {
+    w.Slider.prototype._update = function (force, noCallback) {
         if (force || getTimeStamp() - this.timestamp >= TIME_BETWEEN_2_UPDATE) {
             var val = this.val();
-            if (val != this.lastVal) this.f(this.lastVal = val);
+            if (!noCallback && val != this.lastVal) this.f(this.lastVal = val);
             if (this.hasLabel) this.label.innerText = this.labelf(this.val());
             this.timestamp = getTimeStamp();
         }
