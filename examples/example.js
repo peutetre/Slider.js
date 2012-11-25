@@ -41,7 +41,8 @@ window.document.addEventListener("DOMContentLoaded", function (){
             console.log("Slider value: " + val);
         },
         barCls:"another-slider-bar",
-        btnCls:"another-btn"
+        btnCls:"another-btn",
+        activeCls:"another-active"
     }).bind();
 
     window.d = new Slider({
@@ -61,23 +62,8 @@ window.document.addEventListener("DOMContentLoaded", function (){
             console.log("Slider d value: " + val);
         },
         barCls:"another-slider-bar",
-        btnCls:"another-btn"
-    }).bind();
-
-    window.e = new Slider({
-        min : 0,
-        max : 300,
-        step : 1,
-        width : 200,
-        label : true,
-        labelf : function (val) {
-            return val + " g";
-        },
-        buttonWidth: 30,
-        container : $("container5"),
-        f : function (val) {
-            console.log(val);
-        }
+        btnCls:"another-btn",
+        activeCls:"another-active"
     }).bind();
 
     window.f = new Slider({
@@ -100,7 +86,8 @@ window.document.addEventListener("DOMContentLoaded", function (){
         barCls:"orange",
         progressCls:"orange-slider",
         btnCls:"orange-button",
-        progressValCls:"orange-progress"
+        progressValCls:"orange-progress",
+        activeCls:"orange-active"
     }).bind();
 
 }, false);

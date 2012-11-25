@@ -51,6 +51,7 @@
         this.btnCls = this.options.btnCls || "slider-button";
         this.progressCls = this.options.progressCls || "slider-progress";
         this.progressValCls = this.options.progressValCls || "slider-progress-val";
+        this.activeCls = this.options.activeCls || "slider-active";
 
         this.elt = createDOMElt("div");
         this.bar = createDOMElt("div");
@@ -137,6 +138,7 @@
         var touch = evt.targetTouches.item(0);
         this.startX = touch.clientX;
         this.touchId = touch.identifier;
+        this.button.classList.add(this.activeCls);
     };
 
     w.Slider.prototype.onButtonTouchMove = function (evt) {
@@ -161,6 +163,7 @@
             this.pos = this.delta;
             if(this.hasSnapToStep) this._update(true, false, true);
             else this._update(true);
+            this.button.classList.remove(this.activeCls);
             this.button.removeEventListener("touchmove", this._onButtonTouchMove);
             this.button.removeEventListener("touchend", this._onButtonTouchEnd);
         }
