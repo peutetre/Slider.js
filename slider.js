@@ -41,6 +41,9 @@
         this.buttonWidth = this.options.buttonWidth || DEFAULT_BUTTON_WIDTH;
         this.labelHeight = this.options.labelHeight || DEFAULT_LABEL_HEIGHT;
 
+        this.range = this.max - this.min;
+        this.pxRange = this.width - this.buttonWidth;
+
         this.sliderCls = this.options.sliderCls || "slider";
         this.labelCls = this.options.labelCls || "slider-label";
         this.barCls = this.options.barCls || "slider-bar";
@@ -143,7 +146,8 @@
             var x = this.pos + delta;
 
             if (x <= 0) this.delta = 0;
-            else if (x > this.width - this.buttonWidth) this.delta = this.width - this.buttonWidth;
+            else if (x > this.pxRange) this.delta = this.pxRange;
+            else if(this.snapToStep) this.delta = this._snapToStep(x);
             else this.delta = x;
             this._translate(this.delta);
             this._renderBar(this.delta);
@@ -162,13 +166,13 @@
     };
 
     w.Slider.prototype.val = function () {
-        return Math.round( ((this.max-this.min)/(this.width-this.buttonWidth)*this.delta+this.min) / this.step) * this.step;
+        return this._toStep( (this.range / this.pxRange) * this.delta + this.min);
     };
 
     w.Slider.prototype.set = function (val, force, noCallback) {
         if (val >= this.min && val <= this.max) {
-            val = Math.floor(val/this.step) * this.step;
-            this.pos = Math.round( (val - this.min) * (this.width-this.buttonWidth) / (this.max - this.min));
+            val = this._toStep(val);
+            this.pos = Math.round( (val - this.min) * this.pxRange / this.range);
             this.delta = this.pos;
             this._translate(this.pos);
             this._renderBar(this.pos);
@@ -193,4 +197,9 @@
     w.Slider.prototype._renderBar = function (val) {
         if (this.hasProgress) this.progressVal.style.width = (val + 10 ) + "px";
     };
+
+    w.Slider.prototype._toStep = function (val) {
+        return Math.round(val / this.step) * this.step;
+    };
+
 })(window);
