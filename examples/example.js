@@ -8,7 +8,7 @@ window.document.addEventListener("DOMContentLoaded", function (){
     window.b = new Slider({
         min : 0,
         max : 200,
-        step : 1,
+        step : 10,
         width : 200,
         buttonWidth: 50,
         labelHeight : 30,

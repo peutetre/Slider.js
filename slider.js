@@ -162,17 +162,18 @@
     };
 
     w.Slider.prototype.val = function () {
-        return parseInt((this.max - this.min) / (this.width-this.buttonWidth) * this.delta + this.min, 10);
+        return Math.round( ((this.max-this.min)/(this.width-this.buttonWidth)*this.delta+this.min) / this.step) * this.step;
     };
 
     w.Slider.prototype.set = function (val, force, noCallback) {
         if (val >= this.min && val <= this.max) {
-            this.pos = parseInt( (val - this.min) * (this.width-this.buttonWidth) / (this.max - this.min), 10);
+            val = Math.floor(val/this.step) * this.step;
+            this.pos = Math.round( (val - this.min) * (this.width-this.buttonWidth) / (this.max - this.min));
             this.delta = this.pos;
             this._translate(this.pos);
             this._renderBar(this.pos);
-            this._update(force, noCallback);
             this.lastVal = val;
+            this._update(force, noCallback);
         }
     };
 
@@ -184,7 +185,7 @@
         if (force || getTimeStamp() - this.timestamp >= TIME_BETWEEN_2_UPDATE) {
             var val = this.val();
             if (!noCallback && val != this.lastVal) this.f(this.lastVal = val);
-            if (this.hasLabel) this.label.innerText = this.labelf(this.val());
+            if (this.hasLabel) this.label.innerText = this.labelf(val);
             this.timestamp = getTimeStamp();
         }
     };
