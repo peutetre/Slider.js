@@ -33,6 +33,7 @@
         this.hasLabel = this.options.label || false;
         if (this.hasLabel) this.labelf = this.options.labelf || function (val) { return val; };
         this.hasProgress = this.options.progress || false;
+        this.hasSnapToStep = this.options.snapToStep || false;
         this.f = this.options.f || function () {};
         this.initPos = this.options.initPos || this.min;
 
@@ -147,7 +148,6 @@
 
             if (x <= 0) this.delta = 0;
             else if (x > this.pxRange) this.delta = this.pxRange;
-            else if(this.snapToStep) this.delta = this._snapToStep(x);
             else this.delta = x;
             this._translate(this.delta);
             this._renderBar(this.delta);
@@ -159,20 +159,21 @@
         var touch = evt.changedTouches.item(0);
         if (touch.identifier === this.touchId) {
             this.pos = this.delta;
-            this._update(true);
+            if(this.hasSnapToStep) this._update(true, false, true);
+            else this._update(true);
             this.button.removeEventListener("touchmove", this._onButtonTouchMove);
             this.button.removeEventListener("touchend", this._onButtonTouchEnd);
         }
     };
 
     w.Slider.prototype.val = function () {
-        return this._toStep( (this.range / this.pxRange) * this.delta + this.min);
+        return this._toStep((this.range / this.pxRange) * this.delta + this.min);
     };
 
     w.Slider.prototype.set = function (val, force, noCallback) {
         if (val >= this.min && val <= this.max) {
             val = this._toStep(val);
-            this.pos = Math.round( (val - this.min) * this.pxRange / this.range);
+            this.pos = this._toPos(val);
             this.delta = this.pos;
             this._translate(this.pos);
             this._renderBar(this.pos);
@@ -185,9 +186,10 @@
         this.button.style.webkitTransform = "translate3d(" + val  + "px, 0,0)";
     };
 
-    w.Slider.prototype._update = function (force, noCallback) {
+    w.Slider.prototype._update = function (force, noCallback, snap) {
         if (force || getTimeStamp() - this.timestamp >= TIME_BETWEEN_2_UPDATE) {
             var val = this.val();
+            if (snap) this._translate(this.pos = this._toPos(val));
             if (!noCallback && val != this.lastVal) this.f(this.lastVal = val);
             if (this.hasLabel) this.label.innerText = this.labelf(val);
             this.timestamp = getTimeStamp();
@@ -200,6 +202,10 @@
 
     w.Slider.prototype._toStep = function (val) {
         return Math.round(val / this.step) * this.step;
+    };
+
+    w.Slider.prototype._toPos = function (val) {
+        return Math.round((val - this.min) * this.pxRange / this.range);
     };
 
 })(window);

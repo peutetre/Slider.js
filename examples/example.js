@@ -12,6 +12,7 @@ window.document.addEventListener("DOMContentLoaded", function (){
         width : 200,
         buttonWidth: 50,
         labelHeight : 30,
+        snapToStep : true,
         label : true,
         labelf : function (val) {
             return val + " ml";
@@ -25,11 +26,12 @@ window.document.addEventListener("DOMContentLoaded", function (){
     window.c = new Slider({
         min : 0,
         max : 100,
-        step : 1,
+        step : 25,
         initPos : 50,
         width : 200,
         buttonWidth: 40,
         label : true,
+        snapToStep : true,
         labelf : function (val) {
             return val + "%";
         },
