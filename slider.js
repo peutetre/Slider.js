@@ -30,17 +30,17 @@
         this.min = this.options.min  || DEFAULT_MIN;
         this.max = this.options.max  || DEFAULT_MAX;
         this.step = this.options.step  || DEFAULT_STEP;
-        this.hasLabel = this.options.label || false;
-        if (this.hasLabel) this.labelf = this.options.labelf || function (val) { return val; };
-        this.hasProgress = this.options.progress || false;
-        this.hasSnapToStep = this.options.snapToStep || false;
-        this.f = this.options.f || function () {};
-        this.initPos = this.options.initPos || this.min;
-
         this.width = this.options.width || DEFAULT_WIDTH;
         this.height = this.options.height || DEFAULT_HEIGHT;
         this.buttonWidth = this.options.buttonWidth || DEFAULT_BUTTON_WIDTH;
         this.labelHeight = this.options.labelHeight || DEFAULT_LABEL_HEIGHT;
+        this.hasLabel = this.options.label || false;
+        if (this.hasLabel) this.labelf = this.options.labelf || function (val) { return val; };
+        this.hasProgress = this.options.progress || false;
+        if (this.hasProgress) this.progressHeight = this.options.progressHeight || this.buttonWidth/2;
+        this.hasSnapToStep = this.options.snapToStep || false;
+        this.f = this.options.f || function () {};
+        this.initPos = this.options.initPos || this.min;
 
         this.range = this.max - this.min;
         this.pxRange = this.width - this.buttonWidth;
@@ -89,9 +89,9 @@
             this.progressVal = createDOMElt("div");
             css(this.progress, {
                 width:"100%",
-                height: toPx(this.buttonWidth/2),
+                height: toPx(this.progressHeight),
                 position:"absolute",
-                bottom : toPx(this.buttonWidth/4)
+                bottom : toPx((this.buttonWidth - this.progressHeight) /2)
             });
             css(this.progressVal, {
                 width:"100%",
