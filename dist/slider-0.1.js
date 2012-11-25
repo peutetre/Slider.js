@@ -27,6 +27,7 @@
         if (this.options.container) this.container = this.options.container;
         else throw new Error("Slider.js: need a container DOM element!");
 
+        this.on = true;
         this.min = this.options.min  || DEFAULT_MIN;
         this.max = this.options.max  || DEFAULT_MAX;
         this.step = this.options.step  || DEFAULT_STEP;
@@ -132,13 +133,15 @@
     };
 
     w.Slider.prototype.onButtonTouchStart = function (evt) {
-        this.button.addEventListener("touchmove", this._onButtonTouchMove, false);
-        this.button.addEventListener("touchend", this._onButtonTouchEnd, false);
+        if (this.on) {
+            this.button.addEventListener("touchmove", this._onButtonTouchMove, false);
+            this.button.addEventListener("touchend", this._onButtonTouchEnd, false);
 
-        var touch = evt.targetTouches.item(0);
-        this.startX = touch.clientX;
-        this.touchId = touch.identifier;
-        this.button.classList.add(this.activeCls);
+            var touch = evt.targetTouches.item(0);
+            this.startX = touch.clientX;
+            this.touchId = touch.identifier;
+            this.button.classList.add(this.activeCls);
+        }
     };
 
     w.Slider.prototype.onButtonTouchMove = function (evt) {
@@ -188,6 +191,9 @@
     w.Slider.prototype._translate = function (val) {
         this.button.style.webkitTransform = "translate3d(" + val  + "px, 0,0)";
     };
+
+    w.Slider.prototype.start = function () { this.on = true; };
+    w.Slider.prototype.stop = function () { this.on = false; };
 
     w.Slider.prototype._update = function (force, noCallback, snap) {
         if (force || getTimeStamp() - this.timestamp >= TIME_BETWEEN_2_UPDATE) {
