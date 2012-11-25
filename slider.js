@@ -46,6 +46,7 @@
         this.barCls = this.options.barCls || "slider-bar";
         this.btnCls = this.options.btnCls || "slider-button";
         this.progressCls = this.options.progressCls || "slider-progress";
+        this.progressValCls = this.options.progressValCls || "slider-progress-val";
 
         this.elt = createDOMElt("div");
         this.bar = createDOMElt("div");
@@ -80,13 +81,22 @@
 
         if (this.hasProgress) {
             this.progress = createDOMElt("div");
+            this.progressVal = createDOMElt("div");
             css(this.progress, {
                 width:"100%",
                 height: toPx(this.buttonWidth/2),
                 position:"absolute",
                 bottom : toPx(this.buttonWidth/4)
             });
+            css(this.progressVal, {
+                width:"100%",
+                height: "100%",
+                position:"absolute",
+                bottom : 0
+            });
             this.progress.classList.add(this.progressCls);
+            this.progressVal.classList.add(this.progressValCls);
+            this.progress.appendChild(this.progressVal);
             this.bar.appendChild(this.progress);
         }
 
@@ -136,6 +146,7 @@
             else if (x > this.width - this.buttonWidth) this.delta = this.width - this.buttonWidth;
             else this.delta = x;
             this._translate(this.delta);
+            this._renderBar(this.delta);
             this._update();
         }
     };
@@ -159,6 +170,7 @@
             this.pos = parseInt( (val - this.min) * (this.width-this.buttonWidth) / (this.max - this.min), 10);
             this.delta = this.pos;
             this._translate(this.pos);
+            this._renderBar(this.pos);
             this._update(force, noCallback);
             this.lastVal = val;
         }
@@ -175,5 +187,9 @@
             if (this.hasLabel) this.label.innerText = this.labelf(this.val());
             this.timestamp = getTimeStamp();
         }
+    };
+
+    w.Slider.prototype._renderBar = function (val) {
+        if (this.hasProgress) this.progressVal.style.width = (val + 10 ) + "px";
     };
 })(window);

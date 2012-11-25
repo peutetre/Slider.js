@@ -3,24 +3,7 @@ window.document.addEventListener("DOMContentLoaded", function (){
 
     function $(elt) { return window.document.getElementById(elt); }
 
-    window.document.body.addEventListener("touchstart", function (evt) {
-        evt.preventDefault();
-    }, false);
-
-    window.a = new Slider({
-        min : 0,
-        max : 300,
-        step : 1,
-        width : 200,
-        label : true,
-        labelf : function (val) {
-            return val + " g";
-        },
-        container : $("container1"),
-        f : function (val) {
-            console.log(val);
-        }
-    }).bind();
+    window.document.addEventListener("touchstart", function (evt) { evt.preventDefault(); }, false);
 
     window.b = new Slider({
         min : 0,
@@ -93,6 +76,29 @@ window.document.addEventListener("DOMContentLoaded", function (){
         f : function (val) {
             console.log(val);
         }
+    }).bind();
+
+    window.f = new Slider({
+        min : 0,
+        max : 100,
+        step : 1,
+        initPos : 50,
+        width : 200,
+        buttonWidth: 30,
+        label : true,
+        labelf : function (val) {
+            return val + "%";
+        },
+        container : $("container6"),
+        progress : true,
+        f : function (val) {
+            console.log("Slider d value: " + val);
+        },
+        sliderCls:"orange",
+        barCls:"orange",
+        progressCls:"orange-slider",
+        btnCls:"orange-button",
+        progressValCls:"orange-progress"
     }).bind();
 
 }, false);

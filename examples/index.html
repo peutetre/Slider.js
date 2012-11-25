@@ -3,18 +3,27 @@
     <head>
         <title>Slider.js example</title>
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, initial-scale=1.0, maximun-scale=1.0">
+        <meta name="viewport" content="initial-scale=1.0, user-scalable=no, initial-scale=1.0">
     </head>
     <body>
         <style type="text/css">
             * {
                 box-sizing:border-box;
+                margin:0;
+                -webkit-tap-highlight-color: rgba(0,0,0,0);
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
             }
             body {
                 font-family:"Chalkboard SE";
                 color:#A8A8A8;
                 background:#47484D;
-                margin-top:40px;
+                text-align:center;
+                width:100%;
+                height:100%;
+            }
+            h1 {
+                padding-bottom:10px;
             }
             .container {
                 width:300px;
@@ -44,13 +53,44 @@
                 border: 2px solid #63626B;
                 background: #696A77;
             }
+            /* orange style */
+            .orange { background:transparent; }
+            .orange-slider {
+                background-color: #E4E5E9;
+                border: 1px solid #B1B9BC;
+                -webkit-box-shadow: inset 0 2px 3px #C1C6CC;
+                box-shadow: inset 0 2px 3px #C1C6CC;
+                z-index: 1;
+                border-radius:30px;
+                background-image: -webkit-gradient(linear, 0% 0%, 0% 70%, from(#fed0b9), to(#FE6C00)) 50%;
+            }
+            .orange-progress {
+                width: 0;
+                position: relative;
+                z-index: 2;
+                background-image: -webkit-gradient(linear, 0% 0%, 0% 70%, from(#fed0b9), to(#FE6C00));
+                border: 1px solid #AE4B2D;
+                border-radius: 30px;
+            }
+            .orange-button {
+                z-index: 10;
+                border-radius: 30px;
+                border: 1px solid #aaa;
+                background-image: -webkit-gradient(linear, 0% 0%, 0% 70%, from(#fff), to(#F4F4F4));
+                -webkit-box-shadow: 0 2px 3px #8B9298;
+                box-shadow: 0 2px 3px #8B9298;
+            }
+            .orange-button.active {
+                background-image: -webkit-gradient(linear, 0% 0%, 0% 70%, from(#C4C4C4), to(#F4F4F4));
+            }
         </style>
 
-        <div id="container1" class="container"></div>
+        <h1>Slider.js example</h1>
         <div id="container2" class="container"></div>
         <div id="container3" class="container"></div>
         <div id="container4" class="container"></div>
         <div id="container5" class="container"></div>
+        <div id="container6" class="container"></div>
 
         <script src="../slider.js"></script>
         <script src="example.js"></script>
