@@ -60,18 +60,21 @@
 
         css(this.elt, {
             width:toPx(this.width), margin:"auto",
-            position:"relative", boxSizing: "border-box"
+            position:"relative", boxSizing: "border-box",
+            webkitTransform:"translate3d(0,0,0)"
         });
 
         css(this.bar, {
             display:"block", margin:"auto", position : "relative",
-            width:"100%", height: toPx(this.buttonWidth)
+            width:"100%", height: toPx(this.buttonWidth),
+            webkitTransform:"translate3d(0,0,0)"
         });
 
         css(this.button, {
             display:"block", margin:"auto",
             width:toPx(this.buttonWidth), height: "100%",
-            position : "absolute", top:0, left : 0
+            position : "absolute", top:0, left : 0,
+            webkitTransform:"translate3d(0,0,0)"
         });
 
         if (this.hasLabel) {
@@ -79,7 +82,7 @@
             css(this.label, {
                 display:"block", margin:"auto",
                 width:"100%", height: toPx(this.labelHeight),
-                textAlign : "center"
+                textAlign : "center", webkitTransform:"translate3d(0,0,0)"
             });
             this.label.classList.add(this.labelCls);
             this.elt.appendChild(this.label);
@@ -91,14 +94,15 @@
             css(this.progress, {
                 width:"100%",
                 height: toPx(this.progressHeight),
-                position:"absolute",
+                position:"absolute", webkitTransform:"translate3d(0,0,0)",
                 bottom : toPx((this.buttonWidth - this.progressHeight) /2)
             });
             css(this.progressVal, {
                 width:"100%",
                 height: "100%",
                 position:"absolute",
-                bottom : 0
+                bottom : 0,
+                webkitTransform:"translate3d(0,0,0)"
             });
             this.progress.classList.add(this.progressCls);
             this.progressVal.classList.add(this.progressValCls);
@@ -123,7 +127,7 @@
     };
 
     w.Slider.prototype.bind = function () {
-        this.button.addEventListener("touchstart", this._onButtonTouchStart, false);
+        this.button.addEventListener("touchstart", this._onButtonTouchStart, true);
         return this;
     };
 
@@ -134,8 +138,10 @@
 
     w.Slider.prototype.onButtonTouchStart = function (evt) {
         if (this.on) {
-            this.button.addEventListener("touchmove", this._onButtonTouchMove, false);
-            this.button.addEventListener("touchend", this._onButtonTouchEnd, false);
+            evt.preventDefault();
+            evt.stopPropagation();
+            this.button.addEventListener("touchmove", this._onButtonTouchMove, true);
+            this.button.addEventListener("touchend", this._onButtonTouchEnd, true);
 
             var touch = evt.targetTouches.item(0);
             this.startX = touch.clientX;
@@ -149,6 +155,8 @@
             delta = touch.clientX - this.startX;
 
         if (touch.identifier == this.touchId) {
+            evt.preventDefault();
+            evt.stopPropagation();
             var x = this.pos + delta;
 
             if (x <= 0) this.delta = 0;
@@ -198,7 +206,10 @@
     w.Slider.prototype._update = function (force, noCallback, snap) {
         if (force || getTimeStamp() - this.timestamp >= TIME_BETWEEN_2_UPDATE) {
             var val = this.val();
-            if (snap) this._translate(this.pos = this._toPos(val));
+            if (snap) {
+                this._renderBar(this.pos = this._toPos(val));
+                this._translate(this.pos);
+            }
             if (!noCallback && val != this.lastVal) this.f(this.lastVal = val);
             if (this.hasLabel) this.label.innerText = this.labelf(val);
             this.timestamp = getTimeStamp();
@@ -206,7 +217,8 @@
     };
 
     w.Slider.prototype._renderBar = function (val) {
-        if (this.hasProgress) this.progressVal.style.width = (val + 10 ) + "px";
+        var self = this;
+        if (this.hasProgress) setTimeout(function () { self.progressVal.style.width = (val + 10 ) + "px"; }, 0);
     };
 
     w.Slider.prototype._toStep = function (val) {
