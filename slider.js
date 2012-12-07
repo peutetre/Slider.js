@@ -9,7 +9,15 @@
         createDOMElt = function (tag) { return w.document.createElement(tag); },
         toPx = function (x) { return x + "px"; },
         getTimeStamp = function () { return (new w.Date()).getTime(); },
-        css = function (elt, s) { for (var a in s) { elt.style[a] = s[a]; } };
+        css = function (elt, s) { for (var a in s) { elt.style[a] = s[a]; } },
+        id = function (v) { return v; },
+        bind = id.bind ?
+                 function (f, c) { return f.bind(c); }
+               : function (f, c) {
+                     return function () {
+                         return f.apply(c, Array.prototype.slice.call(arguments));
+                     };
+                 };
 
     /* default */
     var TIME_BETWEEN_2_UPDATE = 100,
@@ -121,9 +129,10 @@
         this.set(this.initPos, true, true);
         this.timestamp = getTimeStamp();
 
-        this._onButtonTouchStart = this.onButtonTouchStart.bind(this);
-        this._onButtonTouchMove = this.onButtonTouchMove.bind(this);
-        this._onButtonTouchEnd = this.onButtonTouchEnd.bind(this);
+        this._onButtonTouchStart = bind(this.onButtonTouchStart, this);
+        this._onButtonTouchMove = bind(this.onButtonTouchMove, this);
+        this._onButtonTouchEnd = bind(this.onButtonTouchEnd, this);
+        return this;
     };
 
     w.Slider.prototype.bind = function () {
