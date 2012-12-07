@@ -44,9 +44,11 @@
         this.buttonWidth = this.options.buttonWidth || DEFAULT_BUTTON_WIDTH;
         this.labelHeight = this.options.labelHeight || DEFAULT_LABEL_HEIGHT;
         this.hasLabel = this.options.label || false;
-        if (this.hasLabel) this.labelf = this.options.labelf || function (val) { return val; };
+        if (this.hasLabel)
+            this.labelf = this.options.labelf || function (val) { return val; };
         this.hasProgress = this.options.progress || false;
-        if (this.hasProgress) this.progressHeight = this.options.progressHeight || this.buttonWidth/2;
+        if (this.hasProgress)
+            this.progressHeight = this.options.progressHeight || this.buttonWidth/2;
         this.hasSnapToStep = this.options.snapToStep || false;
         this.f = this.options.f || function () {};
         this.initPos = this.options.initPos || this.min;
@@ -227,7 +229,11 @@
 
     w.Slider.prototype._renderBar = function (val) {
         var self = this;
-        if (this.hasProgress) setTimeout(function () { self.progressVal.style.width = (val + 10 ) + "px"; }, 0);
+        if (this.hasProgress) {
+            setTimeout(function () {
+                self.progressVal.style.width = (val + 10 ) + "px";
+            }, 0);
+        }
     };
 
     w.Slider.prototype._toStep = function (val) {

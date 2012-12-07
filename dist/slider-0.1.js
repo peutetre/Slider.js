@@ -9,7 +9,15 @@
         createDOMElt = function (tag) { return w.document.createElement(tag); },
         toPx = function (x) { return x + "px"; },
         getTimeStamp = function () { return (new w.Date()).getTime(); },
-        css = function (elt, s) { for (var a in s) { elt.style[a] = s[a]; } };
+        css = function (elt, s) { for (var a in s) { elt.style[a] = s[a]; } },
+        id = function (v) { return v; },
+        bind = id.bind ?
+                 function (f, c) { return f.bind(c); }
+               : function (f, c) {
+                     return function () {
+                         return f.apply(c, Array.prototype.slice.call(arguments));
+                     };
+                 };
 
     /* default */
     var TIME_BETWEEN_2_UPDATE = 100,
@@ -36,9 +44,11 @@
         this.buttonWidth = this.options.buttonWidth || DEFAULT_BUTTON_WIDTH;
         this.labelHeight = this.options.labelHeight || DEFAULT_LABEL_HEIGHT;
         this.hasLabel = this.options.label || false;
-        if (this.hasLabel) this.labelf = this.options.labelf || function (val) { return val; };
+        if (this.hasLabel)
+            this.labelf = this.options.labelf || function (val) { return val; };
         this.hasProgress = this.options.progress || false;
-        if (this.hasProgress) this.progressHeight = this.options.progressHeight || this.buttonWidth/2;
+        if (this.hasProgress)
+            this.progressHeight = this.options.progressHeight || this.buttonWidth/2;
         this.hasSnapToStep = this.options.snapToStep || false;
         this.f = this.options.f || function () {};
         this.initPos = this.options.initPos || this.min;
@@ -121,9 +131,10 @@
         this.set(this.initPos, true, true);
         this.timestamp = getTimeStamp();
 
-        this._onButtonTouchStart = this.onButtonTouchStart.bind(this);
-        this._onButtonTouchMove = this.onButtonTouchMove.bind(this);
-        this._onButtonTouchEnd = this.onButtonTouchEnd.bind(this);
+        this._onButtonTouchStart = bind(this.onButtonTouchStart, this);
+        this._onButtonTouchMove = bind(this.onButtonTouchMove, this);
+        this._onButtonTouchEnd = bind(this.onButtonTouchEnd, this);
+        return this;
     };
 
     w.Slider.prototype.bind = function () {
@@ -218,7 +229,11 @@
 
     w.Slider.prototype._renderBar = function (val) {
         var self = this;
-        if (this.hasProgress) setTimeout(function () { self.progressVal.style.width = (val + 10 ) + "px"; }, 0);
+        if (this.hasProgress) {
+            setTimeout(function () {
+                self.progressVal.style.width = (val + 10 ) + "px";
+            }, 0);
+        }
     };
 
     w.Slider.prototype._toStep = function (val) {

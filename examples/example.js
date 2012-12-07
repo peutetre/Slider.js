@@ -73,7 +73,7 @@ window.document.addEventListener("DOMContentLoaded", function (){
         initPos : 50,
         width : 200,
         buttonWidth: 30,
-        progressHeight : 15,
+        progressHeight : 10,
         label : true,
         labelf : function (val) {
             return val + "%";
