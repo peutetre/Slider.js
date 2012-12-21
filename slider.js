@@ -10,6 +10,8 @@
         toPx = function (x) { return x + "px"; },
         getTimeStamp = function () { return (new w.Date()).getTime(); },
         css = function (elt, s) { for (var a in s) { elt.style[a] = s[a]; } },
+        addClass = w.document.classList ? function (elt, c) { elt.classList.add(c); } : function (elt, c) { elt.className += " " + c; },
+        rmClass = w.document.classList ? function (elt, c) { elt.classList.remove(c); } :function (elt, c) { elt.className = elt.className.replace(new RegExp(c, 'g'), ""); },
         id = function (v) { return v; },
         bind = id.bind ?
                  function (f, c) { return f.bind(c); }
@@ -94,7 +96,7 @@
                 width:"100%", height: toPx(this.labelHeight),
                 textAlign : "center", webkitTransform:"translate3d(0,0,0)"
             });
-            this.label.classList.add(this.labelCls);
+            addClass(this.label, this.labelCls);
             this.elt.appendChild(this.label);
         }
 
@@ -114,15 +116,15 @@
                 bottom : 0,
                 webkitTransform:"translate3d(0,0,0)"
             });
-            this.progress.classList.add(this.progressCls);
-            this.progressVal.classList.add(this.progressValCls);
+            addClass(this.progress, this.progressCls);
+            addClass(this.progressVal, this.progressValCls);
             this.progress.appendChild(this.progressVal);
             this.bar.appendChild(this.progress);
         }
 
-        this.button.classList.add(this.btnCls);
-        this.bar.classList.add(this.barCls);
-        this.elt.classList.add(this.sliderCls);
+        addClass(this.button, this.btnCls);
+        addClass(this.bar, this.barCls);
+        addClass(this.elt, this.sliderCls);
 
         this.bar.appendChild(this.button);
         this.elt.appendChild(this.bar);
@@ -157,7 +159,7 @@
             var touch = evt.targetTouches.item(0);
             this.startX = touch.clientX;
             this.touchId = touch.identifier;
-            this.button.classList.add(this.activeCls);
+            addClass(this.button, this.activeCls);
         }
     };
 
@@ -185,7 +187,7 @@
             this.pos = this.delta;
             if(this.hasSnapToStep) this._update(true, false, true);
             else this._update(true);
-            this.button.classList.remove(this.activeCls);
+            rmClass(this.button, this.activeCls);
             this.button.removeEventListener("touchmove", this._onButtonTouchMove);
             this.button.removeEventListener("touchend", this._onButtonTouchEnd);
         }
